@@ -1,12 +1,16 @@
-import { Alert, Image, Pressable, SafeAreaView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import { Alert, Image, Pressable,Text, TextInput, TouchableOpacity, View} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import {heightPercentageToDP as hp, widthPercentageToDP as wp} from 'react-native-responsive-screen'
 import {Feather, Octicons} from '@expo/vector-icons'
 import { useRouter } from 'expo-router';
 import { useRef,useState } from 'react';
 import CustomKeyboard from '../components/customeKeyboardView';
+import { useAuth } from '../context/authContext';
+import Loading from '../components/loading';
+
 export default function SignUpScreen() {
-   const [loading, setloading] = useState(false)
+    const {register} = useAuth()
+    const [loading, setloading] = useState(false)
     const router = useRouter();
     const emailRef = useRef("");
     const passwordRef = useRef("")
@@ -18,7 +22,14 @@ export default function SignUpScreen() {
         Alert.alert("Sign Up","Please fill all the fields!")
         return;
       }
-  
+      setloading(true)
+      let response = await register(emailRef.current,passwordRef.current,usernameRef.current,profileUrlRef.current)
+      setloading(false)
+      if (!response.success) {
+        Alert.alert("Sign up",response.msg);
+        return;
+      }
+
     }
   return (
     <CustomKeyboard >

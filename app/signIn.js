@@ -6,17 +6,26 @@ import { useRouter } from 'expo-router';
 import { useRef,useState } from 'react';
 import Loading from '../components/loading';
 import CustomKeyboard from '../components/customeKeyboardView';
+import { useAuth } from '../context/authContext';
 export default function SignInScreen() {
+  const {login} = useAuth()
   const [loading, setloading] = useState(false)
   const router = useRouter();
   const emailRef = useRef("");
   const passwordRef = useRef("")
+
   const handleLogin = async ()=>{
     if (!emailRef.current || !passwordRef.current ) {
       Alert.alert("Sign In","Please fill all the fields!")
       return;
     }
-
+    setloading(true)
+    let response = await login(emailRef.current,passwordRef.current)
+    setloading(false)
+    if (!response.success) {
+      Alert.alert("Sign In",response.msg);
+      return;
+    }
   }
 
   return (
