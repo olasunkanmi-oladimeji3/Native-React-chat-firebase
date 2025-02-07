@@ -41,7 +41,7 @@ export default function SignUpScreen() {
         
         {/* Form container */}
         <View className="gap-10">
-           <Text style={{fontSize:hp(4)}} className="text-3xl text-center font-bold tracking-wider">Sign Up</Text>
+           <Text style={{fontSize:hp(3)}} className="text-3xl text-center font-bold tracking-wider">Sign Up</Text>
            {/* form Inputs */}
           <View className="gap-4">
              {/* Username Input */}
